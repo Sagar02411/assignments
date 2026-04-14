@@ -21,7 +21,7 @@ Modules & Packages, OOP, SQL Basics, DB Connection, Best Practices, Logging.
 # Then call the function and print the result.
 
 def add_numbers(a, b):
-    pass
+    return a + b
 
 print("Q1 Output:", add_numbers(5, 3))
 
@@ -34,7 +34,10 @@ print("Q1 Output:", add_numbers(5, 3))
 # Fix the code so that it handles division by zero properly using try-except.
 
 def divide(a, b):
-    return a / b
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return "Cannot divide by zero."
 
 print("Q2 Output:", divide(10, 0))
 
@@ -49,11 +52,11 @@ print("Q2 Output:", divide(10, 0))
 
 def check_age(age):
     if age < 18:
-        # raise custom exception
-        pass
-    return "Eligible"
+        raise Exception("Not an adult")
+    else:
+        return "Eligible"
 
-print("Q3 Output:", check_age(15))
+print("Q3 Output:", check_age(19))
 
 
 # =========================
@@ -66,8 +69,8 @@ print("Q3 Output:", check_age(15))
 import random
 
 def generate_random():
-    # return random number
-    pass
+    
+    return random.randint(1,100)
 
 print("Q4 Output:", generate_random())
 
@@ -81,7 +84,7 @@ print("Q4 Output:", generate_random())
 
 numbers = [1, 2, 3, 4, 5]
 
-squared = None  # Replace with map + lambda
+squared = list(map(lambda x: x**2, numbers))
 
 print("Q5 Output:", list(squared))
 
@@ -93,7 +96,7 @@ print("Q5 Output:", list(squared))
 # TODO:
 # Use filter to get only even numbers.
 
-evens = None
+evens = list(filter(lambda x: x%2 == 0, numbers))
 
 print("Q6 Output:", list(evens))
 
@@ -104,10 +107,12 @@ print("Q6 Output:", list(evens))
 
 # TODO:
 # Use reduce to calculate the product of the list.
-
+import functools
 from functools import reduce
+import operator 
 
-product = None
+
+product = functools.reduce(operator.mul, numbers)
 
 print("Q7 Output:", product)
 
@@ -121,7 +126,9 @@ print("Q7 Output:", product)
 # with a function `multiply(a, b)`.
 # Write a comment explaining how to structure the package properly.
 
+# import math_utils 
 # from math_utils import multiply
+# first import the module andn then import the function. The directory should be : math_utils/multiply()
 # print(multiply(2, 3))
 
 
@@ -134,9 +141,19 @@ print("Q7 Output:", product)
 # Add a method `display()` to print details.
 
 class Student:
-    pass
+    
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+    
+    def display(self):
+        return f"{self.name} is {self.marks}"
+    
+s1 = Student("A", 28)
+print(s1.display())
 
-s1 = Student()
+
+
 # Assign values and call display()
 
 
@@ -152,7 +169,7 @@ class Person:
     def show(self):
         print("I am a person")
 
-class Teacher:
+class Teacher(Person):
     pass
 
 
@@ -165,10 +182,18 @@ class Teacher:
 # Both should print different sounds.
 
 class Dog:
-    pass
-
+    def sound(self):
+        print(self.name, "barks")
+    
+    
+    
+d1 = d1.DOG()
 class Cat:
-    pass
+    def sound(self):
+        print(self.name, "MEOW")
+
+
+c1 = c1.Cat()
 
 
 # =========================
@@ -208,6 +233,9 @@ class Shape(ABC):
 # 2. Insert one record
 # 3. Select all records
 
+# create table Students(id INT,name VARCHAR(20),marks INT);
+# insert INTO Students (id, name, marks) VALUES (1, a, 12);
+# select * from Students
 
 # =========================
 # Q15: PYTHON DB CONNECTION
@@ -235,7 +263,7 @@ def create_connection():
 # TODO:
 # Write a SQL CTE query (in comment) to find students with marks > average.
 
-
+#select name from Students where marks > marks(avg)
 # =========================
 # Q17: BUG FIXING
 # =========================
