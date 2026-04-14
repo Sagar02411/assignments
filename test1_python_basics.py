@@ -36,8 +36,8 @@ print("Q1 Output:", add_numbers(5, 3))
 def divide(a, b):
     try:
         return a / b
-    except ZeroDivisionError:
-        return "Cannot divide by zero."
+    except Exception as e:
+        return f"Cannot divide by zero. {e}"
 
 print("Q2 Output:", divide(10, 0))
 
@@ -50,13 +50,18 @@ print("Q2 Output:", divide(10, 0))
 # Create a custom exception called InvalidAgeError.
 # Raise it if age < 18.
 
+class InvalidAgeError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
 def check_age(age):
     if age < 18:
-        raise Exception("Not an adult")
+        raise InvalidAgeError("Not an adult")
     else:
         return "Eligible"
 
-print("Q3 Output:", check_age(19))
+print("Q3 Output:", check_age(18))
 
 
 # =========================
@@ -147,7 +152,7 @@ class Student:
         self.marks = marks
     
     def display(self):
-        return f"{self.name} is {self.marks}"
+        return f"{self.name} has {self.marks}"
     
 s1 = Student("A", 28)
 print(s1.display())
@@ -183,17 +188,15 @@ class Teacher(Person):
 
 class Dog:
     def sound(self):
-        print(self.name, "barks")
-    
-    
-    
-d1 = d1.DOG()
+        print("barks")
+
+d1 = Dog()
+d1.sound()
 class Cat:
     def sound(self):
-        print(self.name, "MEOW")
-
-
-c1 = c1.Cat()
+        print("MEOW")
+c1 = Cat()
+c1.sound()
 
 
 # =========================
@@ -205,10 +208,15 @@ c1 = c1.Cat()
 # Add deposit and get_balance methods.
 
 class BankAccount:
-    def __init__(self):
-        pass
+    def __init__(self, deposit, balance):
+        self.deposit = deposit
+        self.__balance = balance # Private
 
 
+    def get_balance(self):
+        return self.__balance
+    
+    
 # =========================
 # Q13: ABSTRACTION
 # =========================
@@ -219,8 +227,11 @@ class BankAccount:
 
 from abc import ABC, abstractmethod
 
+
+@abstractmethod
 class Shape(ABC):
-    pass
+    def area(self):
+        pass 
 
 
 # =========================
@@ -249,8 +260,20 @@ import sqlite3
 def create_connection():
     conn = None
     try:
-        # connect to database 'test.db'
-        pass
+        sqliteConnection = sqlite3.connect('sql.db')
+        cursor = sqliteConnection.cursor()
+        print('DB Init')
+
+        # Execute a query to get the SQLite version
+        query = 'SELECT sqlite_version();'
+        cursor.execute(query)
+
+        # Fetch and print the result
+        result = cursor.fetchall()
+        print('SQLite Version is {}'.format(result[0][0]))
+
+        # Close the cursor after use
+        cursor.close()
     except Exception as e:
         print(e)
     return conn
@@ -263,7 +286,7 @@ def create_connection():
 # TODO:
 # Write a SQL CTE query (in comment) to find students with marks > average.
 
-#select name from Students where marks > marks(avg)
+#select name from Students where marks > avg(marks)
 # =========================
 # Q17: BUG FIXING
 # =========================
@@ -273,12 +296,11 @@ def create_connection():
 
 def calculate_average(nums):
     total = 0
-    for i in range(len(nums)):
+    for i in nums:
         total += i
     return total / len(nums)
 
 print("Q17 Output:", calculate_average([10, 20, 30]))
-
 
 # =========================
 # Q18: CODE REUSABILITY
@@ -287,9 +309,12 @@ print("Q17 Output:", calculate_average([10, 20, 30]))
 # TODO:
 # Refactor the below code to avoid repetition using a function.
 
-print(2 * 2)
-print(3 * 3)
-print(4 * 4)
+def multi(a):
+    x = [2,3,4]
+    square = list(map(lambda x: x**2, x))
+    
+
+
 
 
 # =========================
@@ -304,8 +329,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def process():
-    print("Processing started")
-    print("Processing ended")
+    logging.info("Processing started")
+    logging.info("Processing ended")
 
 process()
 
@@ -318,4 +343,5 @@ process()
 # Add proper docstring and comments to this function.
 
 def multiply(a,b):
+    """ multiplies the input numbers and returns the product"""
     return a*b
