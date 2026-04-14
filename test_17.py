@@ -1,6 +1,6 @@
 def calculate_average(nums):
     total = 0
-    for i in range(len(nums)):
+    for i in nums:
         total += i
     return total / len(nums)
 
