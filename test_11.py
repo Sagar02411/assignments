@@ -1,7 +1,14 @@
 class Dog:
     def speaks(self):
-        print("dog barks")
+        return "Dog Barks"
 
 class Cat:
     def speaks(self):
-        print("cat doesnot bark")
+        return "Cat does not barks"
+
+
+# cat1 = Cat()
+# dog1 = Dog()
+
+print(Cat().speaks())
+print(Dog().speaks())

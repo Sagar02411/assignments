@@ -1,4 +1,3 @@
-from functools import reduce
-numbers = [1,2,3,4,5]
-product = list(reduce(lambda x,y: x * y,numbers))
-print(product)
+import math_utils
+from math_utils import multiply
+print(multiply(2, 3))

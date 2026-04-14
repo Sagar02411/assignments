@@ -1,3 +1,4 @@
-numbers = [1, 2, 3, 4, 5]
-even = list(filter(lambda x : x % 2 == 0, numbers))
-print(even)
+from functools import reduce
+numbers = [1,2,3,4,5]
+product = list(reduce(lambda x,y: x * y,numbers))
+print(product)
