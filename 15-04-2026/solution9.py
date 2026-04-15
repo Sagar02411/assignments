@@ -3,9 +3,8 @@
 
 # file: main.py
 
-import utils
 # from utils import math_utils
-from math_utils import add
+from utils.maths_utils.math_utils import add
 
 
-print(math_utils.add(2, 3))
+print(add(2, 3))

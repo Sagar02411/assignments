@@ -2,19 +2,14 @@ class Cat:
     def sound(self):
         return "Meow"
     
-c1 = Cat()
-c1.sound()
 class Cow:
     def sound(self):
         return "Moo"
     
-c2 = Cow()
-c2.sound()
 
-def animal_sound(self, animal):
+def animal_sound(animal):
     # Call sound() method
+    print(animal.sound())
     
-    self.Cat = Cat
-    self.Cow = Cow
-
-
+animal_sound(Cat())
+animal_sound(Cow())
