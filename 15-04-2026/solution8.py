@@ -1,11 +1,11 @@
 from functools import reduce
+from operator import mul
 
-def product(x,y):
-    return lst[x] * lst[y]
+def product(lst):
+    return mul(lst)
 
-a = [1,2,3,4,5]
-res=list(reduce(lambda x, y: x * y, a))
+lst = [1,2,3,4,5]
+res= reduce(mul , lst)
 print(res)
-
 
 

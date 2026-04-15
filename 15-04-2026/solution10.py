@@ -3,7 +3,6 @@ class Student:
     def __init__(self, name, marks):
         self.name = name
         self.marks = marks
-        return None
     
     def display(self):
         # Print "Name: X, Marks: Y"

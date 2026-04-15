@@ -133,7 +133,6 @@ def create_and_insert():
 
 # Q15 (Medium) – Logging + Best Practices
 def divide(a, b):
-    # Add docstring
     # Add logging
     # create logging file .log
     # Handle exceptions properly
