@@ -1,0 +1,19 @@
+
+# --------------------------------------------------
+# Q5: Implementation
+# Write a function to check if a number is prime.
+# --------------------------------------------------
+
+def is_prime(n):
+    if n <= 1:
+        print(False)
+    else:
+        is_prime = True  # Flag variable
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                is_prime = False
+                break
+        print(is_prime)
+
+
+is_prime(6)
