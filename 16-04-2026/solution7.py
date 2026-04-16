@@ -6,8 +6,14 @@
 from collections import Counter
 
 def char_frequency(s):
-    return Counter(s)
+    freq = {}
 
+    for i in s:
+        if i in freq:
+            freq[i] += 1
+        else:
+            freq[i] = 1
 
+    print(freq)
 
-print(char_frequency("aaad"))
+char_frequency("aaad")
