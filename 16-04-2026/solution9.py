@@ -5,7 +5,8 @@
 # --------------------------------------------------
 
 def count_words(sentence):
-    words = len(sentence.split(" "))
-    return words   # Bug here
+    words = sentence.split() 
+    
+    return len(words) 
 
-print(count_words("ssjhb hjgj j gjg"))
+print(count_words("ssjhb hjgj j gjg   4   "))
