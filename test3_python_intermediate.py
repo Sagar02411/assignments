@@ -118,3 +118,4 @@ def count_words(sentence):
 def are_anagrams(s1, s2):
     # TODO: Complete the code
     pass
+
