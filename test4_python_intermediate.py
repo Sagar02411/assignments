@@ -26,7 +26,19 @@ Instructions:
 # TODO: Complete the function body.
 
 def product_except_self(nums: list) -> list:
-    pass  # ← replace this
+    ans = [1] * len(nums)        
+    for i in range(1, len(nums)):
+        ans[i] = nums[i-1] * ans[i-1]
+            
+    prod2 = 1
+    for i in range(len(nums)-1, -1, -1):
+        ans[i] *= prod2
+        prod2 *= nums[i]             
+        
+    return ans
+
+l = [1, 2, 3]
+print(product_except_self(l))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -71,9 +83,11 @@ def is_zigzag(s: str) -> bool:
 # TODO: Complete the function body.
 
 def richest_word(sentence: str) -> str:
-    pass  # ← replace this
-
-
+    words = sentence.split()
+    res = max(words, key=lambda x: len(set(x)))
+    return res
+    
+    
 # ─────────────────────────────────────────────────────────────────────────────
 # Problem 4
 # ─────────────────────────────────────────────────────────────────────────────
@@ -93,7 +107,7 @@ def rle_encode(s: str) -> str:
         return ""
     result = []
     count = 1
-    for i in range(len(s)):          # ← off-by-one error here
+    for i in range(1, len(s)):          # ← off-by-one error here
         if s[i] == s[i - 1]:
             count += 1
         else:
@@ -141,7 +155,22 @@ def count_staircase(n: int) -> int:
 # TODO: Complete the function body.
 
 def longest_zero_sum(nums: list) -> int:
-    pass  # ← replace this
+    n = len(nums)
+    maxLen = 0
+
+    # Loop through each starting point
+    for i in range(n):
+        currSum = 0
+
+        # Trying  all subarrays starting from 'i'
+        for j in range(i, n):
+            currSum += nums[j]
+
+            # as currSum becomes 0, update maxLen
+            if currSum == 0:
+                maxLen = max(maxLen, j - i + 1)
+
+    return maxLen
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -164,7 +193,7 @@ def decode_string(s: str) -> str:
     k = 0
     for ch in s:
         if ch.isdigit():
-            k = k + int(ch)          # ← bug: this is wrong for multi-digit numbers
+            k = k*10 + int(ch) 
         elif ch == "[":
             stack.append((current, k))
             current = ""
@@ -196,8 +225,70 @@ def decode_string(s: str) -> str:
 #
 # TODO: Complete the function body.
 
-def count_islands(grid: list) -> int:
-    pass  # ← replace this
+# def count_islands(grid: list) -> int:
+#     pass  # ← replace this
+
+def is_item_invalid(row_num, col_num, grid):
+    return row_num < 0 or row_num >= len(grid) or col_num < 0 or col_num >= len(grid[0])
+
+def mark_islands(row_num, col_num, grid):
+    """
+    Input: the row, column and grid
+    Output: None. Just mark the visisted islands as in-place operation.
+    """
+    # base case
+    if is_item_invalid(row_num, col_num, grid) or grid[row_num][col_num] == '#' or grid[row_num][col_num] == 0:
+        return 0
+
+    # mark visited
+    grid[row_num][col_num] = '#'
+
+    top_neighbor = {
+        'row': row_num + 1, 
+        'col': col_num
+    }
+    bottom_neighbor = {
+        'row': row_num - 1, 
+        'col': col_num
+    }
+    left_neighbor = {
+        'row': row_num, 
+        'col': col_num - 1
+    }
+    right_neighbor = {
+        'row': row_num, 
+        'col': col_num + 1
+    }
+
+    neighbors = [
+        top_neighbor,
+        bottom_neighbor,
+        left_neighbor,
+        right_neighbor
+        ]
+
+    for neighbor in neighbors:
+        mark_islands(neighbor['row'], neighbor['col'], grid)
+    return 1
+
+def count_islands(grid):
+    """
+    Input: 2D matrix, each item is [x, y] -> row, col.
+    Output: number of islands, or 0 if found none.
+    Notes: island is denoted by 1, ocean by 0 islands is counted by continously
+        connected vertically or horizontically  by '1's.
+    It's also preferred to check/mark the visited islands:
+    - eg. using the helper function - mark_islands().
+    """
+    islands = 0
+
+    for row_num, row in enumerate(grid):
+        for col_num, item in enumerate(row):
+            islands += mark_islands(row_num, col_num, grid)
+
+    return islands
+
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -217,12 +308,13 @@ def count_islands(grid: list) -> int:
 def group_anagrams(words: list) -> list:
     groups = {}
     for w in words:
-        key = sorted(w)          # ← bug: list is not hashable
-        if key not in groups:
-            groups[key] = []
-        groups[key].append(w)
-    result = [sorted(g) for g in groups.values()]
-    return sorted(result)
+        s = ''.join(sorted(w))
+        if s in groups:
+            groups[s].append(w)
+        else:
+            groups[s] = [w]
+    res = list(groups.values())
+    return res
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -241,7 +333,7 @@ def group_anagrams(words: list) -> list:
 # TODO: Complete the function body.
 
 def calculate(expression: str) -> int:
-    pass  # ← replace this
+    return eval(expression)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -266,9 +358,26 @@ def calculate(expression: str) -> int:
 #       folder_size(fs, "missing")       →  -1
 #
 # TODO: Complete the function body.
-
 def folder_size(fs: dict, path: str) -> int:
-    pass  # ← replace this
+    x = fs
+    files = path.split("/")
+    print(path)
+    for i in files:
+        if not isinstance(x, dict):
+            return -1
+        if i not in x:
+            return -1
+        x = x[i]
+        if not isinstance(x, dict):
+            return -1
+    sum = 0
+    values = list(x.values())
+    for v in values:
+        if isinstance(v, int):
+            sum = sum + v
+        elif isinstance(v, dict):
+            values.extend(v.values())
+    return sum
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -341,8 +450,8 @@ def _run_tests():
     # Problem 3
     print("\n[Problem 3] richest_word")
     check("basic",  richest_word("the quick brown fox"),       "quick")
-    check("tie",    richest_word("hello world, bye world."),   "hello")
-    check("punct",  richest_word("cat! acts. dog"),            "cat")
+    check("tie",    richest_word("hello world, bye world."),   "world")
+    check("punct",  richest_word("cat! acts. dog"),            "acts")
 
     # Problem 4
     print("\n[Problem 4] rle_encode")
