@@ -19,8 +19,8 @@
             <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
+                <a class="nav-link" href="/home">Home </a>
+                </li> 
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/add-book">add book </a>
@@ -43,15 +43,27 @@
                 <tbody>
                 {% for i in books %}
                 <tr>
-                    <th scope="row">{{forloop.counter}}</th>
+                    <th scope="row">{{forloop.counter}}</th> 
                     <td>{{i.title}}</td>
-                    <td>{{i.author}}</td>
                     <td>{{i.price}}</td>
                     <td>{{i.pages}}</td>
                     <td>
 
-                    <a href="/edit-book?bookid={{i.id}}"><button type="button" class="btn btn-primary">Edit</button></a> 
-                    <a href="/delete-book?bookid={{i.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                    <a href="/edit-book?bookid={{i.book_id}}"><button type="button" class="btn btn-primary">Edit</button></a> 
+                    <a href="/delete-book?bookid={{i.book_id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                
+                <tbody>
+                {% for a in author_table %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{a.author_name}}</td>
+                    <td>
+                    <a href="/edit-book?authid={{a.author_id}}"><button type="button" class="btn btn-primary">Edit</button></a>
+                    <a href="/delete-book?authid={{a.author_id}}"><button type="button" class="btn btn-danger">Delete</button></a> 
                     </td>
                 </tr>
                 {% endfor %}

@@ -1,54 +1,127 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 
 # Create your views here.
 
-from .models import Book
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .models import *
 
 def helloView(request):
-    books=Book.objects.all()
-    return render(request,"viewbook.html",{"books":books})
+    books=Books.objects.all()
+    author_table=Authors.objects.all()
+    context = {
+        "books":books,
+        "author_table":author_table  
+    }
+    return render(request, "viewbook.html", context)
+    # return render(request,"viewbook.html",{"books":books}), render(request, "viewbook.html", {"author_table":author_table})
 
 def addBookView(request):
     return render(request,"addbook.html")
 
-
 def addBook(request):
     if request.method=="POST":
-        t=request.POST["title"]
-        p=request.POST["price"]
-        a=request.POST["author"]
-        n=request.POST["pages"]
-        print(t,p,a,n)
-        book=Book()
-        book.title=t
-        book.price=p
-        book.author=a
-        book.pages=n
+        auth = Authors()
+        name=request.POST["author"]
+        print(name)
+        auth.author_name=name
+        auth.save()
+        print(f"auth {auth} auth.author_id {auth.author_id}")
+        
+        book=Books()
+        book_title=request.POST["title"]
+        book_price=request.POST["price"]
+        book_pages=request.POST["pages"]
+        print(book_title, book_price, book_pages)
+        book.title=book_title
+        book.price=book_price
+        book.pages=book_pages
+        book.author_id=auth
         book.save()
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/home/')
 
 def editBook(request):
     if request.method=="POST":
-        t=request.POST["title"]
-        p=request.POST["price"]
-        a=request.POST["author"]
-        n=request.POST["pages"]
-        book=Book.objects.get(id=request.POST['bid'])
-        book.title=t
-        book.price=p
-        book.author=a
-        book.pages=n
+        book_title=request.POST["title"]
+        book_price=request.POST["price"]
+        book_pages=request.POST["pages"]
+        book=Books.objects.get(book_id=request.POST['bookid'])
+        book.title=book_title
+        book.price=book_price
+        book.pages=book_pages
         book.save()
-        return HttpResponseRedirect('/')
-
+        # name=request.POST["author"]
+        # auth=Authors.objects.get(author_id=request.POST['authid'])
+        # auth.author_name=name
+        # auth.save()
+        return HttpResponseRedirect('/home/')
 
 def editBookView(request):
-    book=Book.objects.get(id=request.GET['bookid'])
+    book=Books.objects.get(book_id=request.GET['bookid'])
     print(book)
-    return render(request,"edit-book.html",{"book":book})
+    return render(request,"edit-book.html", {"book":book})
 
 def deleteBookView(request):
-    book=Book.objects.get(id=request.GET['bookid'])
+    book=Books.objects.get(book_id=request.GET['bookid'])
     book.delete()
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/home/')
+
+# @unauthenticated_user
+def login_page(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Check if a user with the provided username exists
+        if not User.objects.filter(username=username).exists():
+            # Display an error message if the username does not exist
+            messages.error(request, 'Invalid Username')
+            return redirect('/')
+        
+        user = authenticate(username=username, password=password)
+        
+        if user is None:
+            # Display an error message if authentication fails (invalid password)
+            messages.error(request, "Invalid Password")
+            return redirect('/')
+        else:
+            login(request, user)
+            return redirect(helloView)
+    
+    return render(request, 'login.html')
+
+# Define a view function for the registration page
+def register_page(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Check if a user with the provided username already exists
+        user = User.objects.filter(username=username)
+        
+        if user.exists():
+            # Display an information message if the username is taken
+            messages.info(request, "Username already taken!")
+            return redirect('/register/')
+        
+        # Create a new User object with the provided information
+        user = User.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            username=username
+        )
+        
+        # Set the user's password and save the user object
+        user.set_password(password)
+        user.save()
+        
+        # Display an information message indicating successful account creation
+        messages.info(request, "Account created Successfully!")
+        return redirect('/')
+    
+    return render(request, 'register.html')
