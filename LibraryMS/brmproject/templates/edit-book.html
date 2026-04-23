@@ -32,7 +32,7 @@
       <div class="container">
         <h1 class="mt-2">Edit Book</h1>
 
-        <form class="mt-4" action="/edit-book/edit" method="post">
+        <form class="mt-4" action="/edit-book/edit" method="put">
             {% csrf_token %}
             <div class="form-group">
             <input type="hidden" name="bookid" value="{{book.book_id}}">

@@ -9,14 +9,31 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from app.models import Person
+from app.serializers import PersonSerializer
+from rest_framework import status
+
+
+@api_view()
+def view_dtl(request):
+    return Response({'success': 409, 'message': 'api'})
+
+@api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def helloView(request):
-    books=Books.objects.all()
-    author_table=Authors.objects.all()
-    context = {
-        "books":books,
-        "author_table":author_table  
-    }
-    return render(request, "viewbook.html", context)
+    if request.method == 'GET':
+        books_obj=Books.objects.all()
+        serializer = BooksSerializer(books_obj, many=True)
+        return Response({'msg': 'Successfully retrieved data', 'data': serializer.data}, status=status.HTTP_200_OK)
+
+        # author_table=Authors.objects.all()
+        # context = {
+        #     "books":books,
+        #     "author_table":author_table  
+        # }
+        # return render(request, "viewbook.html", context)
     # return render(request,"viewbook.html",{"books":books}), render(request, "viewbook.html", {"author_table":author_table})
 
 def addBookView(request):
@@ -44,15 +61,16 @@ def addBook(request):
         return HttpResponseRedirect('/home/')
 
 def editBook(request):
-    if request.method=="POST":
-        book_title=request.POST["title"]
-        book_price=request.POST["price"]
-        book_pages=request.POST["pages"]
-        book=Books.objects.get(book_id=request.POST['bookid'])
+    if request.method=="PUT":
+        book_title=request.PUT["title"]
+        print(f"book.title {book.title}")
+        book_price=request.PUT["price"]
+        book_pages=request.PUT["pages"]
+        book=Books.objects.get(book_id=request.PUT['bookid'])
         book.title=book_title
         book.price=book_price
         book.pages=book_pages
-        book.save()
+        book.update()
         # name=request.POST["author"]
         # auth=Authors.objects.get(author_id=request.POST['authid'])
         # auth.author_name=name
@@ -65,11 +83,11 @@ def editBookView(request):
     return render(request,"edit-book.html", {"book":book})
 
 def deleteBookView(request):
+    
     book=Books.objects.get(book_id=request.GET['bookid'])
     book.delete()
     return HttpResponseRedirect('/home/')
 
-# @unauthenticated_user
 def login_page(request):
     if request.method == "POST":
         username = request.POST.get('username')
