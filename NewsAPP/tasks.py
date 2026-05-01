@@ -4,11 +4,10 @@ from datetime import datetime, timedelta
 from celery import Celery
 from database import SessionLocal
 from models import News
-import redis
-# from rq import queue
+from dotenv import load_dotenv
 
-# r = redis.Redis()
-# q = Queue(connection = r)
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
 
 celery_app = Celery(
     'tasks',
@@ -25,7 +24,7 @@ celery_app.conf.timezone = 'UTC'
 
 @celery_app.task
 def fetch_and_store_news():
-    api_key = 'API_KEY'
+    api_key = os.getenv("API_KEY")
     url = (
         'https://newsapi.org/v2/top-headlines?'
         'sources=bbc-news&'
@@ -37,21 +36,25 @@ def fetch_and_store_news():
 
     db = SessionLocal()
     try:
-        for article in news_data.get("articles", []):
-            db_news = News(
-                source_id=article.get("source", {}).get("id"),
-                source_name=article.get("source", {}).get("name"),
-                author=article.get("author"),
-                title=article.get("title"),
-                description=article.get("description"),
-                url=article.get("url"),
-                url_to_image=article.get("urlToImage"),
-                published_at=article.get("publishedAt"),
-                content=article.get("content"),
-                created_at=datetime.now(),
+        db_news = News(
+            source_id=article.get("source", {}).get("id"),
+            source_name=article.get("source", {}).get("name"),
+            author=article.get("author"),
+            title=article.get("title"),
+            description=article.get("description"),
+            url=article_url,
+            url_to_image=article.get("urlToImage"),
+            published_at=published_at,
+            content=article.get("content"),
+            created_at=datetime.utcnow(),
             )
-            db.add(db_news)
+        db.add(db_news)
+
         db.commit()
-        
+        print("News articles saved successfully.")
+    except Exception as e:
+        db.rollback()
+        print(f"Error saving news: {e}")
+        raise
     finally:
         db.close()

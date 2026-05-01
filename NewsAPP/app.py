@@ -1,29 +1,25 @@
 from flask import Flask, jsonify
-from database import engine
-from models import Base
-from tasks import celery_app, fetch_and_store_news
 from dotenv import load_dotenv
+from database import engine, Base
+from models import News  
+from tasks import celery_app, fetch_and_store_news
 
-
-# from extensions import db, alembic
-
-# Base.metadata.create_all(bind=engine)
+load_dotenv()
+Base.metadata.create_all(bind=engine)
 
 app = Flask(__name__)
-# db.init(app)
-# alembic.init_app(app)
 
 
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({"status": "running",
-                    "message": "hello owrld"})
+                    "message": "News API is running"})
 
 @app.route('/fetch', methods=['GET'])
 def fetch_now():
     fetch_and_store_news.delay()
-    return jsonify({"status": "queued", 
-                    "message": "smth"})
+    return jsonify({"status": "queued",
+                    "message": "smthh"})
 
 if __name__ == '__main__':
     app.run(debug=True)
