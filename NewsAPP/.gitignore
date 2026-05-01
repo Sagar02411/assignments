@@ -12,3 +12,8 @@ __pycache__/
 *celerybeat-schedule.dir
 
 *celery_config
+
+
+*dump.rdb
+
+instance/
