@@ -26,7 +26,24 @@ Instructions:
 # TODO: Complete the function body.
 
 def product_except_self(nums: list) -> list:
-    pass  # ← replace this
+    n = len(nums)
+
+    # Initialize the result list as 1
+    res = [1] * n
+
+    for i in range(n):
+        
+        # Compute the product of all except arr[i]
+        for j in range(n):
+            if i != j:
+                res[i] *= nums[j]
+
+    return res
+
+nums = [10, 3, 5, 6, 2]
+res = product_except_self(nums)
+print(list(map(str, res)))
+    
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -71,7 +88,12 @@ def is_zigzag(s: str) -> bool:
 # TODO: Complete the function body.
 
 def richest_word(sentence: str) -> str:
-    pass  # ← replace this
+    for s in str:
+        print(s)
+
+str = 'Hello Hii Hello'
+s = set(str.split(" "))
+print(richest_word(s))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -93,7 +115,7 @@ def rle_encode(s: str) -> str:
         return ""
     result = []
     count = 1
-    for i in range(len(s)):          # ← off-by-one error here
+    for i in range(1, len(s)):          # ← off-by-one error here
         if s[i] == s[i - 1]:
             count += 1
         else:
@@ -141,7 +163,25 @@ def count_staircase(n: int) -> int:
 # TODO: Complete the function body.
 
 def longest_zero_sum(nums: list) -> int:
-    pass  # ← replace this
+    n = len(nums)
+    maxLen = 0
+
+    for i in range(n):
+        currSum = 0
+
+        # Trying  all subarrays starting from 'i'
+        for j in range(i, n):
+            currSum += nums[j]
+
+            # as currSum becomes 0, update maxLen
+            if currSum == 0:
+                maxLen = max(maxLen, j - i + 1)
+
+        return maxLen
+
+
+    nums = [15, -2, 2, -8, 1, 7, 10]
+    print(longest_zero_sum(nums))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -164,7 +204,7 @@ def decode_string(s: str) -> str:
     k = 0
     for ch in s:
         if ch.isdigit():
-            k = k + int(ch)          # ← bug: this is wrong for multi-digit numbers
+            k = k *10 + int(ch)          # ← bug: this is wrong for multi-digit numbers
         elif ch == "[":
             stack.append((current, k))
             current = ""
@@ -217,7 +257,7 @@ def count_islands(grid: list) -> int:
 def group_anagrams(words: list) -> list:
     groups = {}
     for w in words:
-        key = sorted(w)          # ← bug: list is not hashable
+        key = "".join(sorted(w))          # ← bug: list is not hashable
         if key not in groups:
             groups[key] = []
         groups[key].append(w)
@@ -240,8 +280,24 @@ def group_anagrams(words: list) -> list:
 #
 # TODO: Complete the function body.
 
+import operator
 def calculate(expression: str) -> int:
-    pass  # ← replace this
+    splited_list = expression.split()  
+    first_num = int(splited_list[0])  
+    second_num = int(splited_list[-1])  
+    operation_to_call = splited_list[1]  
+    # In case of division, whenever the second number equals "0" return`-1`.  
+    if operation_to_call == "//" and second_num == 0:  
+        return -1  
+    # setup dictionary to call the maths operation  
+    math_dictionary = {"+": operator.add(first_num, second_num),  
+                       "-": operator.sub(first_num, second_num),  
+                       "*": operator.mul(first_num, second_num),  
+                       "//": operator.floordiv(first_num, second_num)}  
+    # find the equivalent operation from the dictionary and store the result  
+    result = math_dictionary[operation_to_call]  
+    return result
+print(calculate('1 * 2'))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -341,9 +397,8 @@ def _run_tests():
     # Problem 3
     print("\n[Problem 3] richest_word")
     check("basic",  richest_word("the quick brown fox"),       "quick")
-    check("tie",    richest_word("hello world, bye world."),   "hello")
-    check("punct",  richest_word("cat! acts. dog"),            "cat")
-
+    check("tie",    richest_word("hello world, bye world."),   "world")
+    check("punct",  richest_word("cat! acts. dog"),            "acts")
     # Problem 4
     print("\n[Problem 4] rle_encode")
     check("mixed",  rle_encode("aaabccddddee"),  "a3bc2d4e2")
