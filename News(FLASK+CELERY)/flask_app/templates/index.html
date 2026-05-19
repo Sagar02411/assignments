@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News</title>
+</head>
+<body>
+<h1>News List</h1>
+{% for news in news_list %}
+    <h3>{{ news.title }}</h3>
+    <p>{{ news.description }}</p>
+    <p>Source: {{ news.source_name }}</p>
+    <p><a href="{{ news.url }}">Read more</a></p>
+    <hr>
+{% endfor %}
+</body>
+</html>
