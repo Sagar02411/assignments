@@ -1,14 +1,15 @@
 venv/
+
 *.env
 
 *sample.txt
 
 *app.log
 
-screenshots/
+elibrary_project/screenshots/
 
-pdfs/
+elibrary_project/pdfs/
 
-ebooks/
+/ebooks/
 
 __pycache__/
