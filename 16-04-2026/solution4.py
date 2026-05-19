@@ -1,12 +1,12 @@
-#def reverse_string(s):
- #   stack = list(s)
-  #  rev = ""
-   # for i in range(len(s)):
-    #    rev += stack.pop()# Bug here
-    #return rev
-#print(reverse_string('abcd'))
-s = 'abcd'
-rev = ''
-for ch in s:
-    rev = ch+rev
-print(rev)
+# --------------------------------------------------
+# Q4: Debug the Code
+# The function should reverse a string.
+# --------------------------------------------------
+
+def reverse_string(s):
+    rev = ""
+    for i in range(1, len(s) + 1):
+        rev += s[len(s) - i]   
+    return rev
+
+print(reverse_string("hell"))

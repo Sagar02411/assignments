@@ -19,17 +19,17 @@ def generate_password(length):
     random.shuffle(s2)
 
 
-    # calculate 30% & 20% of number of characters
-    part1 = round(characters_number * (30/100))
-    part2 = round(characters_number * (20/100))
+    # calculate 50% & 50% of number of characters
+    part1 = round(characters_number * (50/100))
+    part2 = round(characters_number * (50/100))
 
-
-    # generation of the password (60% letters and 40% digits & punctuations)
     result = []
 
     for x in range(part1):
 
         result.append(s1[x])
+
+    for x in range(part2):
         result.append(s2[x])
 
     # shuffle result
@@ -38,7 +38,5 @@ def generate_password(length):
     # join result
     password = "".join(result)
     print(password)
-    
-    
-    
-generate_password(30)
+
+generate_password(8)

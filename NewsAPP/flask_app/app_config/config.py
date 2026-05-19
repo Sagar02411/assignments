@@ -1,0 +1,5 @@
+class Config:
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///news.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'

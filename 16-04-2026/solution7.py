@@ -1,16 +1,19 @@
-def char_frequency(s):
-    freq = {}
-    for c in s:
-        if c in freq:
-            freq[c]+=1
-        else:
-            freq[c]=1
-    return freq
-print(char_frequency('abcd'))
-   
-        
 # --------------------------------------------------
 # Q7: Complete the Function
 # Return a dictionary with character frequency.
 # Example: "aab" -> {'a':2, 'b':1}
-# -------------------------------------------------
+# --------------------------------------------------
+from collections import Counter
+
+def char_frequency(s):
+    freq = {}
+
+    for i in s:
+        if i in freq:
+            freq[i] += 1
+        else:
+            freq[i] = 1
+
+    print(freq)
+
+char_frequency("aaad")

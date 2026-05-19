@@ -1,11 +1,16 @@
+
 class NegativeNumberError(Exception):
-    pass
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
 
 def check_positive(n):
-    if n < 0:
-        raise NegativeNumberError("Negative number error")
-    else:
-        return "valid"
-    # Raise NegativeNumberError if n < 0
-    # Otherwise return "Valid"
-print(check_positive(2))
+    if n > 0 :
+        print("positive integer")
+        
+    else: 
+        raise NegativeNumberError("Negative!")
+    
+check_positive(9)

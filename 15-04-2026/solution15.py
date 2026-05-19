@@ -1,18 +1,12 @@
-# Q15 (Medium) – Logging + Best Practices
 import logging
 
-logger = logging.getLogger("SimpleLogger")
-logger.setLevel(logging.DEBUG)
-
-file_handler = logging.FileHandler("app.log")
-logger.addHandler(file_handler)
+logging.basicConfig(level=logging.INFO)
 
 def divide(a, b):
-    try:
-        result = a/b
-        logger.info(f"result : {result}")
-        return result
+    """ checks the ZeroDividionError and returns the result"""
+    try :
+        return a/b
     except ZeroDivisionError:
-        logger.error("Can not devide by zero")
-    return a / b
-print(divide(2,2))
+        logging.info("Cannot divide by zero")
+
+print(divide(1,5))

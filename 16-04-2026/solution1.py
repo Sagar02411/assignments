@@ -1,7 +1,18 @@
+
+# --------------------------------------------------
+# Q1: Complete the Function
+# Write a function to return the factorial of a number.
+# Example: factorial(5) -> 120
+# --------------------------------------------------
+
 def factorial(n):
     if n < 0:
-        return "Factorial is not defined for negative numbers"
-    return 1 if n <= 1 else n * factorial(n-1)
+        print("error")
+    else:
+        f = 1
+        for i in range(1, n+1):
+            f *= i
+        print(f)
 
-print(factorial(5))  
-print(factorial(-3))
+
+factorial(4)

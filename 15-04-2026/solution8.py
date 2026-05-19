@@ -1,11 +1,14 @@
+# Q8 (Medium) – reduce
+import functools
 from functools import reduce
-from operator import mul
+import operator
 
 def product(lst):
-    return mul(lst)
+    # Use reduce to multiply all elements
+    result = functools.reduce(operator.mul, numbers)
+    return result
 
-lst = [1,2,3,4,5]
-res= reduce(mul , lst)
-print(res)
+numbers = [1, 2, 3, 4, 5]
+print(product(numbers))
 
 

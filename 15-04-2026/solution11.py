@@ -1,11 +1,14 @@
 # Q11 (Medium) – Inheritance
+
+
 class Animal:
     def speak(self):
         return "Animal speaks"
+
 class Dog(Animal):
+    # Override speak method to return "Dog barks"
     def speak(self):
-        return "dog barks"
-r1 = Dog()
-animal = Animal()
-print(r1.speak())
-print(animal.speak())
+        print("Dog barks")
+d1 = Dog()
+d1.speak()
+

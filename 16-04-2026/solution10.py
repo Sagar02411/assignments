@@ -5,10 +5,9 @@
 # --------------------------------------------------
 
 def are_anagrams(s1, s2):
-    check1 = sorted(s1)
-    check2 = sorted(s2)
-    if check1 == check2:
-        return"Yes strings are anagram"
+    if sorted(s1) == sorted(s2):
+        return True
     else:
-        return"not an anagram"
-print(are_anagrams(('abcd'),('bcda')))
+        return False
+
+print(are_anagrams("listen", "silent"))

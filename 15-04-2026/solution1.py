@@ -1,3 +1,6 @@
+# Q1 (Easy) – Functions
 def square(n):
-    return n * n
-print (square(5))
+    return n**2
+
+
+print(square(6))

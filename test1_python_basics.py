@@ -21,7 +21,7 @@ Modules & Packages, OOP, SQL Basics, DB Connection, Best Practices, Logging.
 # Then call the function and print the result.
 
 def add_numbers(a, b):
-    pass
+    return a + b
 
 print("Q1 Output:", add_numbers(5, 3))
 
@@ -34,7 +34,10 @@ print("Q1 Output:", add_numbers(5, 3))
 # Fix the code so that it handles division by zero properly using try-except.
 
 def divide(a, b):
-    return a / b
+    try:
+        return a / b
+    except Exception as e:
+        return f"Cannot divide by zero. {e}"
 
 print("Q2 Output:", divide(10, 0))
 
@@ -47,13 +50,18 @@ print("Q2 Output:", divide(10, 0))
 # Create a custom exception called InvalidAgeError.
 # Raise it if age < 18.
 
+class InvalidAgeError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
 def check_age(age):
     if age < 18:
-        # raise custom exception
-        pass
-    return "Eligible"
+        raise InvalidAgeError("Not an adult")
+    else:
+        return "Eligible"
 
-print("Q3 Output:", check_age(15))
+print("Q3 Output:", check_age(18))
 
 
 # =========================
@@ -66,8 +74,8 @@ print("Q3 Output:", check_age(15))
 import random
 
 def generate_random():
-    # return random number
-    pass
+    
+    return random.randint(1,100)
 
 print("Q4 Output:", generate_random())
 
@@ -81,7 +89,7 @@ print("Q4 Output:", generate_random())
 
 numbers = [1, 2, 3, 4, 5]
 
-squared = None  # Replace with map + lambda
+squared = list(map(lambda x: x**2, numbers))
 
 print("Q5 Output:", list(squared))
 
@@ -93,7 +101,7 @@ print("Q5 Output:", list(squared))
 # TODO:
 # Use filter to get only even numbers.
 
-evens = None
+evens = list(filter(lambda x: x%2 == 0, numbers))
 
 print("Q6 Output:", list(evens))
 
@@ -104,10 +112,12 @@ print("Q6 Output:", list(evens))
 
 # TODO:
 # Use reduce to calculate the product of the list.
-
+import functools
 from functools import reduce
+import operator 
 
-product = None
+
+product = functools.reduce(operator.mul, numbers)
 
 print("Q7 Output:", product)
 
@@ -121,7 +131,9 @@ print("Q7 Output:", product)
 # with a function `multiply(a, b)`.
 # Write a comment explaining how to structure the package properly.
 
+# import math_utils 
 # from math_utils import multiply
+# first import the module andn then import the function. The directory should be : math_utils/multiply()
 # print(multiply(2, 3))
 
 
@@ -134,9 +146,19 @@ print("Q7 Output:", product)
 # Add a method `display()` to print details.
 
 class Student:
-    pass
+    
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+    
+    def display(self):
+        return f"{self.name} has {self.marks}"
+    
+s1 = Student("A", 28)
+print(s1.display())
 
-s1 = Student()
+
+
 # Assign values and call display()
 
 
@@ -152,7 +174,7 @@ class Person:
     def show(self):
         print("I am a person")
 
-class Teacher:
+class Teacher(Person):
     pass
 
 
@@ -165,10 +187,16 @@ class Teacher:
 # Both should print different sounds.
 
 class Dog:
-    pass
+    def sound(self):
+        print("barks")
 
+d1 = Dog()
+d1.sound()
 class Cat:
-    pass
+    def sound(self):
+        print("MEOW")
+c1 = Cat()
+c1.sound()
 
 
 # =========================
@@ -180,8 +208,18 @@ class Cat:
 # Add deposit and get_balance methods.
 
 class BankAccount:
-    def __init__(self):
-        pass
+    def __init__(self, deposit, balance):
+        self.deposit = deposit
+        self.__balance = balance # Private
+        
+    def get_balance(self):
+        return self.__balance
+    
+    def deposit(self):
+        amount = float(input("Enter amount: "))
+        self.__balance += amount
+        print("\nAmount Deposited:", amount)
+        
 
 
 # =========================
@@ -194,8 +232,11 @@ class BankAccount:
 
 from abc import ABC, abstractmethod
 
+
+@abstractmethod
 class Shape(ABC):
-    pass
+    def area(self):
+        pass 
 
 
 # =========================
@@ -208,6 +249,9 @@ class Shape(ABC):
 # 2. Insert one record
 # 3. Select all records
 
+# create table Students(id INT,name VARCHAR(20),marks INT);
+# insert INTO Students (id, name, marks) VALUES (1, a, 12);
+# select * from Students
 
 # =========================
 # Q15: PYTHON DB CONNECTION
@@ -221,8 +265,20 @@ import sqlite3
 def create_connection():
     conn = None
     try:
-        # connect to database 'test.db'
-        pass
+        sqliteConnection = sqlite3.connect('sql.db')
+        cursor = sqliteConnection.cursor()
+        print('DB Init')
+
+        # Execute a query to get the SQLite version
+        query = 'SELECT sqlite_version();'
+        cursor.execute(query)
+
+        # Fetch and print the result
+        result = cursor.fetchall()
+        print('SQLite Version is {}'.format(result[0][0]))
+
+        # Close the cursor after use
+        cursor.close()
     except Exception as e:
         print(e)
     return conn
@@ -235,7 +291,7 @@ def create_connection():
 # TODO:
 # Write a SQL CTE query (in comment) to find students with marks > average.
 
-
+#select name from Students where marks > avg(marks)
 # =========================
 # Q17: BUG FIXING
 # =========================
@@ -245,12 +301,11 @@ def create_connection():
 
 def calculate_average(nums):
     total = 0
-    for i in range(len(nums)):
+    for i in nums:
         total += i
     return total / len(nums)
 
 print("Q17 Output:", calculate_average([10, 20, 30]))
-
 
 # =========================
 # Q18: CODE REUSABILITY
@@ -259,9 +314,12 @@ print("Q17 Output:", calculate_average([10, 20, 30]))
 # TODO:
 # Refactor the below code to avoid repetition using a function.
 
-print(2 * 2)
-print(3 * 3)
-print(4 * 4)
+def multi(a):
+    x = [2,3,4]
+    square = list(map(lambda x: x**2, x))
+    
+
+
 
 
 # =========================
@@ -276,8 +334,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def process():
-    print("Processing started")
-    print("Processing ended")
+    logging.info("Processing started")
+    logging.info("Processing ended")
 
 process()
 
@@ -290,4 +348,5 @@ process()
 # Add proper docstring and comments to this function.
 
 def multiply(a,b):
+    """ multiplies the input numbers and returns the product"""
     return a*b

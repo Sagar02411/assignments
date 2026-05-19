@@ -4,14 +4,14 @@ import sqlite3
 def create_and_insert():
     conn = sqlite3.connect("test.db")
     cursor = conn.cursor()
-    
-    Creating_table ="""CREATE TABLE STUDENTS(
-    id int PRIMARYKEY
-    name VARCHAR(255);
-    )"""
-    INSERT_QUERY = """INSERT INTO students ('id', 'name') VALUES (1,'Devansh'); """
-    # Create table students(id, name)
-    # Insert 2 records
-    
+    table_creation_query = """
+    CREATE TABLE Students (
+        ID INT,
+        Name VARCHAR(25),
+    );
+    """
+# Execute the table creation query
+    cursor.execute(table_creation_query)
+    cursor.execute("INSERT INTO STUDENT VALUES (1,'A')")
     conn.commit()
     conn.close()

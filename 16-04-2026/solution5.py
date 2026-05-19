@@ -1,24 +1,19 @@
-"""from math import sqrt
 
-def Prime(n, i):  
-    if i == 1 or i == 2:  
-        return True
-    if n % i == 0:  
-        return False
+# --------------------------------------------------
+# Q5: Implementation
+# Write a function to check if a number is prime.
+# --------------------------------------------------
 
-    return Prime(n, i - 1)
-n = 13
-i = int(sqrt(n) + 1)
-
-print(Prime(n, i))"""
-def Prime(n):
-    if(n<=1):
-        print('No')
+def is_prime(n):
+    if n <= 1:
+        print(False)
     else:
-        for i in range(2,n-1):
-            if(n%i == 0):
-                print("no")
+        is_prime = True  # Flag variable
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                is_prime = False
                 break
-            else:
-                return("yes")
-print(Prime(13))
+        print(is_prime)
+
+
+is_prime(6)

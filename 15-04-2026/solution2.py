@@ -1,9 +1,10 @@
+# Q2 (Easy) – Exception Handling
 def safe_divide(a, b):
-    try:
-        result = a/b
-        return result
-    except Exception as e:
-        print(f"error: {e}")
+    try: 
+        return  a/b
+    # If division by zero occurs, return "Cannot divide by zero"
     except ZeroDivisionError:
-        raise f"Can not devide by zero"
-print(safe_divide(2,0))
+        print("Cannot divide by zero")
+
+
+safe_divide(2,0)
