@@ -332,6 +332,7 @@ def group_anagrams(words: list) -> list:
 #
 # TODO: Complete the function body.
 
+import operator
 def calculate(expression: str) -> int:
     return eval(expression)
 
@@ -452,7 +453,6 @@ def _run_tests():
     check("basic",  richest_word("the quick brown fox"),       "quick")
     check("tie",    richest_word("hello world, bye world."),   "world")
     check("punct",  richest_word("cat! acts. dog"),            "acts")
-
     # Problem 4
     print("\n[Problem 4] rle_encode")
     check("mixed",  rle_encode("aaabccddddee"),  "a3bc2d4e2")

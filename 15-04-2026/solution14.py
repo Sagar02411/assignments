@@ -1,4 +1,3 @@
-
 # Q14 (Medium) – SQL + Python DB Connection
 import sqlite3
 

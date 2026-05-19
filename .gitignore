@@ -1,0 +1,14 @@
+venv/
+*.env
+
+*sample.txt
+
+*.log
+
+screenshots/
+
+pdfs/
+
+ebooks/
+
+__pycache__/
