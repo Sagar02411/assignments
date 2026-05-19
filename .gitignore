@@ -1,8 +1,8 @@
 venv/
 
-*.env
+.env
 
-*sample.txt
+*.txt
 
 *app.log
 
@@ -13,3 +13,4 @@ elibrary_project/pdfs/
 /ebooks/
 
 __pycache__/
+
