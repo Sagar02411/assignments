@@ -2,15 +2,15 @@ venv/
 
 .env
 
-*.txt
+sample.txt
 
 *app.log
 
 elibrary_project/screenshots/
 
-elibrary_project/pdfs/
+elibrary_project/pdfs/*.pdf
 
-/ebooks/
+elibrary_project/ebooks/
 
 __pycache__/
 
